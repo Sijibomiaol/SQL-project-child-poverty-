@@ -1,0 +1,88 @@
+/* To view the data set of vietnam_wave_1*/
+select *
+from dbo.yyyy;
+/* check for any duplicate in the vietnam_wave_1*/
+select distinct *
+from  dbo.yyyy;
+/* to check for numbers of rows in vietnam_wave_1*/
+/* to check for null value in vietnam_wave_2*/
+select *,
+    from dbo.ras
+	where uniqueid is null
+select count (uniqueid)
+/* to view the data of vietnam_wave_2*/
+select * 
+from dbo.ras
+/* to check for any duplicate values in vietnam_wave_2*/
+select distinct *
+from dbo.yyyy
+/* to check for numbers of rows in vietnam_wave_2*/
+select count (uniqueid)
+from dbo.yyyy
+/* to join vietnam_wave_1 and vietnam_wave_2 together*/
+select *
+from dbo.yyyy
+/* to check for null value in vietnam_wave_2*/
+select *,
+    from dbo.yyyy
+	where uniqueid is null
+inner join dbo.ras
+on dbo.yyyy.UNIQUEID = dbo.ras.UNIQUEID
+/* to see for duplicate in both files, inner join is being used*/
+select dbo.yyyy.UNIQUEID
+from dbo.ras
+inner join dbo.yyyy
+on dbo.yyyy.UNIQUEID = dbo.ras.UNIQUEID
+/*query to create that shows the student details*/
+CREATE TABLE  Children_Details(
+UNIQUEID CHAR,
+SCHOOLID CHAR,
+CLASSID CHAR,
+STUDENTID CHAR,
+YLCHLDID CHAR,
+PROVINCE CHAR,
+DISTRICTCODE CHAR,
+LOCALITY CHAR,
+GENDER CHAR,
+ETHNICITY CHAR,)
+/* to view the table create*/
+CREATE VIEW [Children_Details] AS
+SELECT *
+FROM dbo.Children_Details
+/* this shows the genders of student that takes the survey*/
+create table Student_HomeBackgrounds (
+))
+/* to view yhe table created*/
+Create View [Students_HomeBackgrounds]
+SELECT *
+FROM dbo.Student_HomeBackgrounds
+/* THIS TABLE SHOWS THE GENGER OF THE STUDENTS*/
+create table genders (
+GRLENRL CHAR,
+BOYENRL CHAR,
+TTLENRL CHAR,
+TGRLENRL CHAR,
+TBOYENRL CHAR,
+TTTLENRL CHAR,
+ATDTMSY CHAR,
+)
+Create View [genders]
+SELECT *
+FROM dbo.genders
+/* this shows the details of headteachers)*/
+create table HeadTeachers (
+NUMG10CLS char,
+HTNTCMP char,
+HTDINT char,
+HTAGE char,
+HTSEX char,
+HTETHGRP char,
+HTCURRLE char,
+HTYRSHT  char,
+HTLVLEDC char,
+HTFRMPRV char,
+);
+/* this shows the details of Headteachers*/
+Create View [HeadTeachers]
+SELECT *
+FROM dbo.HeadTeachers
