@@ -1,0 +1,143 @@
+
+--									CHILD POVERTY IN PERU
+
+
+
+--ROUND 3,4 and 5 FOCUSES ON CHILDREN , LET'S EXPLORE THE CHILDREN'S HEALTH IN GENERAL
+
+select COUNT(DISTINCT(childid)) as no_children, chhealth
+from TASK1.ChildhoodPoverty.Peru_Updated 
+where survey_round is not null and chhealth is not null
+group by chhealth
+
+
+--Thus we can see that from the results higher number of 4456 children,  has chhealth of 3 and above which imples good health 
+--the total number of children interviewed from round 3 to round 5 being 4572 when calculated manually from the result
+--The total children having chhealth of 1 to 2 constitutes about 2.5% of the total children interviewed
+
+--THUS WE CAN CONCLUDE THAT CHILDREN WITH BAD HEALTH CONSTITUTES ABOUT 2.5%,
+--WHILE CHILDREN WITH GOOD HEALTH CONSTITUES THE REMAINING 97.5%
+
+--LET'S ALSO EXPLORE THE CHILDREN'S CLADDER WHICH SERVE AS A MEASURE OF THEIR WELLBEING
+
+
+select COUNT(DISTINCT(childid)) as no_children, cladder into peru_cladder_table
+from TASK1.ChildhoodPoverty.Peru_Updated 
+where survey_round is not null and cladder is not null
+group by cladder
+
+
+--I categorized less personal wellbeing from (cladder 1 to cladder 4),  average as cladder 5, and better personal wellbeing from (cladder 6 to cladder9)
+select sum(no_children) as no_lesserwellbeing_children from cladder_table
+where cladder<=4																--Result: 2381
+
+select sum(no_children) as no_averagelywellbeing_children from cladder_table
+where cladder=5																	--Result: 1801
+
+select sum(no_children) as no_betterwellbeing_children from cladder_table
+where cladder > 4																--Result: 5057
+
+
+--FROM THE RESULTS, WE SAW THAT THERE ARE MORE CHILDREN HAVING A GOOD WELL BEING THAN THE CHILDREN HAVING THE WORST POSSIBLE CHILDREN
+
+--LET'S EXPLORE THE LITERACY OF THE CHILDREN (LEVEL AT WHICH THEY CAN READ OR WRITE)
+--to get the sum of children interviewed
+
+
+with cte_1 as 
+(
+select COUNT(DISTINCT(childid)) as no_children, literate from TASK1.ChildhoodPoverty.Peru_Updated
+where literate is not null
+group by literate)
+
+--select sum(no_children) as total_number_children_interviewed from cte_1   -- Result : 2881
+
+select * from cte_1
+
+--from the results, we could see that out of  2881 interviewed on their literacy,
+--1101 were illiterates, 1780 were literates 
+
+
+
+--WE NOW WANT TO EXPLORE THE HOUSEHOLD'S FOOD SECURITY AND CREDIT (FOOD SITUATION IN THE HOUSEHOLD, AND IF THEY LIVE ON LOAN OR CREDIT RESPECTIVELY)
+--the foodsec labels are below:
+
+--1 – We always eat enough of what we want 
+--2 – We eat enough but not always what we would like 
+--3 – We sometimes to not eat enough 
+--4 – We frequently do not eat enough.
+
+with foodsec_cte as (
+select count(distinct(childid)) as no_children ,foodsec 
+from
+TASK1.ChildhoodPoverty.Peru_Updated
+where foodsec is not null
+group by foodsec)
+
+--select sum(no_children) as total_children from foodsec_cte     --Result : 4840
+
+select * from foodsec_cte
+
+--CALCULATING TRADITIONALLY, FROM THE RESULT WE COULD DEDUCE THAT:
+
+--37% OF THE  HOUSEHOLDS INTERVIEWED ARE SATISFIED WITH THEIR FEEDING SITUATION
+--47% OF THE HOUSEHOLDS INTERVIEWED EAT ENOUGH BUT NOT ALWAYS WHAT THEY LIKE
+--13% OF THE HOUSEHOLDS INTERVIEWED DO NOT EAT ENOUGH SOMETIMES
+--3% OF THE HOUSEHOLDS INTERVIEWED DO NOT ENOUGH
+
+--WE'D EXPLORE THE NUMBER OF HOUSEHOLDS THAT HAS OBTAINED LOANS/CREDITS FOR THE PAST 12 MONTHS
+
+with house_credit_cte as (
+select count(distinct(childid)) as no_households, credit
+from TASK1.ChildhoodPoverty.Peru_Updated
+where credit is not null
+group by credit)
+
+--select sum(no_households) as total_households_interviewed from house_credit_cte;   --result: 3971
+
+select * from house_credit_cte
+
+--RESULTS SHOWED THAT 63% OF HOUSEHOLDS INTERVIEWED HAS OBTAINED LOAN IN THE PAST 12 MONTHS
+--37% of households HASN'T OBTAINED LOAN IN THE PAST 12 MONTHS
+
+
+--WE NOW EXPLORE THE MOST IMPORTANT MEASURE IN THIS ANALYSIS: WEALTH INDEX WHICH IS THE PRIMARY MEASURE OF THE SOCIOECONOMIC STATUS OF HOUSEHOLDS 
+--WITHIN THE YOUNG LIVES SAMPLE
+
+--we'll take wealth index >= 0.75 as rich
+--weath index >= 0.5<0.75 as substantially okay
+--wealth index <0.5 as poor
+
+select count(distinct(childid)) as num_households_under into peru_num_households_poor
+from TASK1.ChildhoodPoverty.Peru_Updated 
+where wi is not null and wi< 0.5
+
+
+select count(distinct(childid)) as num_households_average into peru_num_households_average
+from TASK1.ChildhoodPoverty.Peru_Updated 
+where wi is not null and (wi >=0.5 and wi<0.75)
+
+select count(distinct(childid)) as num_households_rich into peru_num_households_rich
+from TASK1.ChildhoodPoverty.Peru_Updated 
+where wi is not null and (wi >=0.75)
+
+select count(distinct(childid)) as total_num_households_interviewed into peru_num_households_interviewed
+from TASK1.ChildhoodPoverty.Peru_Updated 
+where wi is not null 
+
+select * from peru_num_households_poor --result : 1775
+
+select * from peru_num_households_average  --result : 2009
+
+select * from peru_num_households_rich  --result: 1224
+
+select * from peru_num_households_interviewed   --result : 2766
+
+
+
+
+--THUS THE WEALTH INDEX SHOWS THAT OUT OF 2766 households interviewed 
+--1775 HAS A WEALTH INDEX BELOW O.5
+--2009 HAS A WEALTH INDEX BETWEEN O.5 AND 0.75
+--1224 HAS A WEALTH INDEX ABOVE 0.75
+
