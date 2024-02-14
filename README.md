@@ -1,0 +1,9 @@
+This project focuses on understanding child poverty in lower-income countries such as Ethiopia, India, Peru, and Vietnam, as they reflect a variety of cultural, geographical, and social contexts and experience a variety of issues that the developing world faces, such as high debt burdens, post-conflict emergence, and vulnerability to environmental conditions such as drought and flood. 
+SQL queries were used to construct reports with the goal of extracting insights to better understand the causes and consequences of childhood poverty, as well as investigate how policies affect children's well-being. Child welfare was focused more effectively. 
+The reports were built on Microsoft SQL Server Management Studio version 2018 using T-SQL statements with meaningful comments. Thus, a database system was implemented and tested for this successful reporting system.
+RELATIONAL SCHEMA
+A relational schema, as we all know, is a database architecture blueprint that represents the data to be inserted into the database and illustrates how the data is organized in tables (called relations in relational schemas). 
+The schema explains how the tables are related to one another.
+In this project, A schema (ChildhoodPoverty) was created for our tables which represents the four datasets given for this project (Ethiopia, India, Peru, Vietnam).
+Four tables were then loaded namely [ChildhoodPoverty.Ethopia_Updated, ChildhoodPoverty.Peru_Updated, ChildhoodPoverty.India_Updated, ChildhoodPoverty.Vietnam_Updated]. 
+For the purpose of a relational schema, there has to be a relationship among these tables, Unfortunately, there is no relationship among these tables as there are no columns connecting these tables, there aren’t association among these tables as they represent datasets for distinct countries. 
